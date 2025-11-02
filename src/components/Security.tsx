@@ -25,24 +25,32 @@ export const Security = () => {
   ];
 
   return (
-    <section className="border-y border-border bg-secondary/30 py-16 md:py-20">
+    <section className="border-y border-border/50 py-20 md:py-28">
       <div className="container">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Security & Privacy</h2>
-            <p className="text-lg text-muted-foreground">
-              Built with confidentiality and trust at the core
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 text-center">
+            <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+              Security & Privacy
+            </div>
+            <h2 className="mb-6 text-4xl font-bold md:text-5xl">Built with trust at the core</h2>
+            <p className="text-xl text-muted-foreground">
+              Enterprise-grade security for your confidential documents
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2">
             {securityPoints.map((point, idx) => (
-              <div key={idx} className="flex gap-4">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-background">
-                  <point.icon className="h-5 w-5 text-accent" />
-                </div>
-                <div>
-                  <h3 className="mb-1 font-semibold">{point.title}</h3>
-                  <p className="text-sm text-muted-foreground">{point.description}</p>
+              <div 
+                key={idx} 
+                className="group rounded-2xl border-2 border-border/50 bg-gradient-to-br from-background to-secondary/20 p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-lg"
+              >
+                <div className="flex gap-5">
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/10 to-purple-500/10 transition-all duration-300 group-hover:scale-110">
+                    <point.icon className="h-7 w-7 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="mb-2 text-lg font-bold">{point.title}</h3>
+                    <p className="leading-relaxed text-muted-foreground">{point.description}</p>
+                  </div>
                 </div>
               </div>
             ))}

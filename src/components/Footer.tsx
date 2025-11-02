@@ -7,34 +7,34 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-border bg-background py-12">
+    <footer className="border-t border-border/50 bg-gradient-to-br from-secondary/30 to-background py-16">
       <div className="container">
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-6 text-sm">
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-8 text-sm">
           <button
             onClick={() => scrollToSection("pricing")}
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="font-medium text-muted-foreground transition-colors hover:text-accent"
           >
             Pricing
           </button>
           <button
             onClick={() => scrollToSection("faq")}
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="font-medium text-muted-foreground transition-colors hover:text-accent"
           >
             FAQ
           </button>
-          <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+          <a href="#" className="font-medium text-muted-foreground transition-colors hover:text-accent">
             Security & Privacy
           </a>
           <a
             href="mailto:hello@legalbrief.ai"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="font-medium text-muted-foreground transition-colors hover:text-accent"
           >
             Contact
           </a>
         </div>
-        <div className="space-y-2 text-center text-xs text-muted-foreground">
-          <p>© {currentYear} LegalBrief AI. All rights reserved.</p>
-          <p>Not a law firm. Outputs are for informational purposes only.</p>
+        <div className="space-y-3 text-center text-sm text-muted-foreground">
+          <p className="font-medium">© {currentYear} LegalBrief AI. All rights reserved.</p>
+          <p className="text-xs">Not a law firm. Outputs are for informational purposes only.</p>
         </div>
       </div>
     </footer>

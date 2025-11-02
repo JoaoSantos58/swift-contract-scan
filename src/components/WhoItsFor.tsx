@@ -9,17 +9,24 @@ export const WhoItsFor = () => {
   ];
 
   return (
-    <section className="border-y border-border bg-secondary/30 py-16">
-      <div className="container">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-8 text-2xl font-bold md:text-3xl">Who it's for</h2>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+    <section className="relative overflow-hidden border-y border-border/50 py-20">
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple-500/5"></div>
+      <div className="container relative">
+        <div className="mx-auto max-w-5xl text-center">
+          <div className="mb-8 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+            Who We Serve
+          </div>
+          <h2 className="mb-12 text-3xl font-bold md:text-4xl">Who it's for</h2>
+          <div className="flex flex-wrap items-center justify-center gap-6">
             {audiences.map((audience, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background">
-                  <audience.icon className="h-6 w-6 text-foreground" />
+              <div 
+                key={idx} 
+                className="group flex flex-col items-center gap-3 rounded-2xl border-2 border-border/50 bg-background/80 p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/50 hover:shadow-lg"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/10 to-purple-500/10 transition-all duration-300 group-hover:scale-110">
+                  <audience.icon className="h-7 w-7 text-accent" />
                 </div>
-                <span className="text-sm font-medium">{audience.label}</span>
+                <span className="font-semibold">{audience.label}</span>
               </div>
             ))}
           </div>

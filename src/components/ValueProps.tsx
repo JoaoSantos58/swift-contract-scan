@@ -20,16 +20,22 @@ export const ValueProps = () => {
   ];
 
   return (
-    <section className="container py-16 md:py-20">
-      <div className="mx-auto max-w-5xl">
+    <section className="container py-20 md:py-28">
+      <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-3">
           {values.map((value, idx) => (
-            <div key={idx} className="flex flex-col items-start">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-                <value.icon className="h-6 w-6 text-accent" />
+            <div 
+              key={idx} 
+              className="group relative overflow-hidden rounded-2xl border-2 border-border/50 bg-gradient-to-br from-background to-secondary/30 p-8 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_40px_hsl(var(--accent)/0.15)]"
+            >
+              <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-accent/10 to-purple-500/10 blur-2xl transition-all duration-300 group-hover:scale-150"></div>
+              <div className="relative">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/20 to-purple-500/10 shadow-lg">
+                  <value.icon className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="mb-3 text-xl font-bold">{value.title}</h3>
+                <p className="leading-relaxed text-muted-foreground">{value.description}</p>
               </div>
-              <h3 className="mb-2 text-lg font-semibold">{value.title}</h3>
-              <p className="text-sm text-muted-foreground">{value.description}</p>
             </div>
           ))}
         </div>

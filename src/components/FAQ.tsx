@@ -34,19 +34,28 @@ export const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="scroll-mt-16 container py-16 md:py-20">
+    <section id="faq" className="scroll-mt-16 container py-20 md:py-28">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Frequently asked questions</h2>
-          <p className="text-lg text-muted-foreground">
+        <div className="mb-16 text-center">
+          <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+            FAQ
+          </div>
+          <h2 className="mb-6 text-4xl font-bold md:text-5xl">Frequently asked questions</h2>
+          <p className="text-xl text-muted-foreground">
             Everything you need to know about LegalBrief AI
           </p>
         </div>
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full space-y-4">
           {faqs.map((faq, idx) => (
-            <AccordionItem key={idx} value={`item-${idx}`}>
-              <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
+            <AccordionItem 
+              key={idx} 
+              value={`item-${idx}`}
+              className="rounded-2xl border-2 border-border/50 bg-gradient-to-br from-background to-secondary/20 px-6 data-[state=open]:border-accent/30"
+            >
+              <AccordionTrigger className="text-left font-semibold hover:no-underline py-6">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="pb-6 text-muted-foreground leading-relaxed">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

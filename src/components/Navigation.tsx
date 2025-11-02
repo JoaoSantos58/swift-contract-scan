@@ -16,10 +16,10 @@ export const Navigation = ({ onSampleClick }: NavigationProps) => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <a href="/" className="text-xl font-bold tracking-tight">
+        <a href="/" className="bg-gradient-to-r from-accent to-purple-500 bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
           LegalBrief AI
         </a>
 
