@@ -1,35 +1,42 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SampleForm } from "@/components/SampleForm";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 export const FinalCTA = () => {
+  const [showSampleForm, setShowSampleForm] = useState(false);
+  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
+
   return (
-    <section className="relative overflow-hidden border-y border-border py-24 md:py-32">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-purple-500/5 to-transparent"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(199_89%_48%/0.1),transparent_70%)]"></div>
-      
-      <div className="container relative">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-            Start saving hours{" "}
-            <span className="gradient-text">this week</span>
-          </h2>
-          <p className="mb-10 text-xl text-muted-foreground md:text-2xl">
-            Join the waitlist and get an instant sample summary
-          </p>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
-              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+    <>
+      <section className="relative overflow-hidden border-y border-border py-24 md:py-32">
+        {/* Gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-purple-500/5 to-transparent"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(199_89%_48%/0.1),transparent_70%)]"></div>
+        
+        <div className="container relative">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+              Start saving hours{" "}
+              <span className="gradient-text">this week</span>
+            </h2>
+            <p className="mb-10 text-xl text-muted-foreground md:text-2xl">
+              Join the waitlist and get an instant sample summary
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button variant="hero" size="lg" className="w-full sm:w-auto" onClick={() => setShowSampleForm(true)}>
                 Get a sample summary (PDF)
-              </a>
-            </Button>
-            <Button asChild variant="glass" size="lg" className="w-full sm:w-auto">
-              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+              </Button>
+              <Button variant="glass" size="lg" className="w-full sm:w-auto" onClick={() => setShowWaitlistForm(true)}>
                 Join the waitlist
-              </a>
-            </Button>
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <SampleForm open={showSampleForm} onOpenChange={setShowSampleForm} />
+      <WaitlistForm open={showWaitlistForm} onOpenChange={setShowWaitlistForm} />
+    </>
   );
 };

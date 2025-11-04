@@ -67,9 +67,30 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call - replace with actual endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Waitlist submission:", { ...values, tag: "waitlist" });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/add-to-mailchimp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            tags: ["waitlist", values.role, values.source].filter(Boolean),
+            mergeFields: {
+              FNAME: values.name || "",
+              ROLE: values.role,
+              COUNTRY: values.country || "",
+              SOURCE: values.source || "",
+              MARKETING: values.marketing ? "yes" : "no",
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
       
       setIsSuccess(true);
       toast({
@@ -83,6 +104,7 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
         form.reset();
       }, 2000);
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",

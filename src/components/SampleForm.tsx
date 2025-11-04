@@ -64,9 +64,28 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call - replace with actual endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Sample request:", { ...values, tag: "sample_request" });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/add-to-mailchimp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            tags: ["sample_request", values.documentType],
+            mergeFields: {
+              DTYPE: values.documentType,
+              USECASE: values.useCase || "",
+              MARKETING: values.marketing ? "yes" : "no",
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
       
       setIsSuccess(true);
       toast({
@@ -80,6 +99,7 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
         form.reset();
       }, 2000);
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
         description: "Couldn't send the sample. Please try again or contact support.",
