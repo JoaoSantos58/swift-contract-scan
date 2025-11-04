@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
@@ -11,38 +10,24 @@ import { Security } from "@/components/Security";
 import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
-import { WaitlistForm } from "@/components/WaitlistForm";
-import { SampleForm } from "@/components/SampleForm";
 
 const Index = () => {
-  const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [sampleOpen, setSampleOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-background">
-      <Navigation onSampleClick={() => setSampleOpen(true)} />
+      <Navigation />
       <main>
-        <Hero
-          onSampleClick={() => setSampleOpen(true)}
-          onWaitlistClick={() => setWaitlistOpen(true)}
-        />
+        <Hero />
         <Problem />
         <ValueProps />
         <Features />
         <HowItWorks />
         <WhoItsFor />
-        <Pricing onWaitlistClick={() => setWaitlistOpen(true)} />
+        <Pricing />
         <Security />
         <FAQ />
-        <FinalCTA
-          onSampleClick={() => setSampleOpen(true)}
-          onWaitlistClick={() => setWaitlistOpen(true)}
-        />
+        <FinalCTA />
       </main>
       <Footer />
-      
-      <WaitlistForm open={waitlistOpen} onOpenChange={setWaitlistOpen} />
-      <SampleForm open={sampleOpen} onOpenChange={setSampleOpen} />
     </div>
   );
 };

@@ -2,11 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
-interface PricingProps {
-  onWaitlistClick: () => void;
-}
-
-export const Pricing = ({ onWaitlistClick }: PricingProps) => {
+export const Pricing = () => {
   const features = [
     "30 documents/month",
     "PDF & Word export",
@@ -58,8 +54,10 @@ export const Pricing = ({ onWaitlistClick }: PricingProps) => {
                   </li>
                 ))}
               </ul>
-              <Button onClick={onWaitlistClick} variant="hero" size="lg" className="w-full">
-                Join the waitlist
+              <Button asChild variant="hero" size="lg" className="w-full">
+                <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                  Join the waitlist
+                </a>
               </Button>
             </CardContent>
           </Card>

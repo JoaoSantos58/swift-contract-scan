@@ -1,12 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Shield, Lock } from "lucide-react";
 
-interface HeroProps {
-  onSampleClick: () => void;
-  onWaitlistClick: () => void;
-}
-
-export const Hero = ({ onSampleClick, onWaitlistClick }: HeroProps) => {
+export const Hero = () => {
   return (
     <section className="relative overflow-hidden py-20 md:py-32 lg:py-40">
       {/* Gradient mesh background */}
@@ -34,11 +29,15 @@ export const Hero = ({ onSampleClick, onWaitlistClick }: HeroProps) => {
 
           {/* CTAs */}
           <div className="mb-12 flex flex-col items-center justify-center gap-4 animate-fade-up sm:flex-row" style={{ animationDelay: "0.2s" }}>
-            <Button onClick={onSampleClick} variant="hero" size="lg" className="w-full sm:w-auto">
-              Get a sample summary (PDF)
+            <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
+              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                Get a sample summary (PDF)
+              </a>
             </Button>
-            <Button onClick={onWaitlistClick} variant="glass" size="lg" className="w-full sm:w-auto">
-              Join the waitlist
+            <Button asChild variant="glass" size="lg" className="w-full sm:w-auto">
+              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                Join the waitlist
+              </a>
             </Button>
           </div>
 

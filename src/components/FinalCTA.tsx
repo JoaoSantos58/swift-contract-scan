@@ -1,11 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-interface FinalCTAProps {
-  onSampleClick: () => void;
-  onWaitlistClick: () => void;
-}
-
-export const FinalCTA = ({ onSampleClick, onWaitlistClick }: FinalCTAProps) => {
+export const FinalCTA = () => {
   return (
     <section className="relative overflow-hidden border-y border-border py-24 md:py-32">
       {/* Gradient background */}
@@ -22,11 +17,15 @@ export const FinalCTA = ({ onSampleClick, onWaitlistClick }: FinalCTAProps) => {
             Join the waitlist and get an instant sample summary
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button onClick={onSampleClick} variant="hero" size="lg" className="w-full sm:w-auto">
-              Get a sample summary (PDF)
+            <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
+              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                Get a sample summary (PDF)
+              </a>
             </Button>
-            <Button onClick={onWaitlistClick} variant="glass" size="lg" className="w-full sm:w-auto">
-              Join the waitlist
+            <Button asChild variant="glass" size="lg" className="w-full sm:w-auto">
+              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                Join the waitlist
+              </a>
             </Button>
           </div>
         </div>

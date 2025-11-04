@@ -2,11 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-interface NavigationProps {
-  onSampleClick: () => void;
-}
-
-export const Navigation = ({ onSampleClick }: NavigationProps) => {
+export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -55,8 +51,10 @@ export const Navigation = ({ onSampleClick }: NavigationProps) => {
           >
             Contact
           </a>
-          <Button onClick={onSampleClick} variant="hero" size="sm">
-            Get Sample Summary (PDF)
+          <Button asChild variant="hero" size="sm">
+            <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+              Get Sample Summary (PDF)
+            </a>
           </Button>
         </div>
 
@@ -104,8 +102,10 @@ export const Navigation = ({ onSampleClick }: NavigationProps) => {
             >
               Contact
             </a>
-            <Button onClick={onSampleClick} variant="hero" size="sm" className="w-full">
-              Get Sample Summary (PDF)
+            <Button asChild variant="hero" size="sm" className="w-full">
+              <a href="https://mailchi.mp/aebfc47a5117/legalbrief-ai" target="_blank" rel="noopener noreferrer">
+                Get Sample Summary (PDF)
+              </a>
             </Button>
           </div>
         </div>
