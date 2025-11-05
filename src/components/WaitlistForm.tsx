@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -67,6 +68,17 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
+      // Save to Supabase first
+      const { error: dbError } = await supabase
+        .from("waitlist_subscribers")
+        .insert([{ email: values.email }]);
+
+      if (dbError) {
+        console.error("Database error:", dbError);
+        // Continue to Mailchimp even if DB fails
+      }
+
+      // Then send to Mailchimp
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/add-to-mailchimp`,
         {
