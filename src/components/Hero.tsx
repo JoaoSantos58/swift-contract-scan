@@ -25,13 +25,18 @@ export const Hero = () => {
               Early Access Now Open — First 100 Users
             </div>
 
-            <h1 className="mb-8 animate-fade-up text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-              Review contracts{" "}
-              <span className="gradient-text">10× faster</span> — summaries in 2 minutes
+            <h1 className="mb-8 animate-fade-up text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+              Automate your legal contract summaries{" "}
+              <span className="gradient-text">in 2 minutes</span>
             </h1>
             
-            <p className="mx-auto mb-10 max-w-3xl animate-fade-up text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl" style={{ animationDelay: "0.1s" }}>
-              Upload a document and get a concise, client-ready brief with key clauses, risks, deadlines, and next steps. Keep your workflow. Save hours per week.
+            <p className="mx-auto mb-6 max-w-3xl animate-fade-up text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl" style={{ animationDelay: "0.1s" }}>
+              Upload a document and get a concise, client-ready brief with key clauses, risks, deadlines, and next steps. Trusted by solo lawyers and small firms worldwide.
+            </p>
+
+            {/* Trust microcopy */}
+            <p className="mx-auto mb-10 max-w-2xl animate-fade-up text-sm font-medium text-accent" style={{ animationDelay: "0.15s" }}>
+              No credit card required • Your data is 100% confidential and secure
             </p>
 
             {/* CTAs */}

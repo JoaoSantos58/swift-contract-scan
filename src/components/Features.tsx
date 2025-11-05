@@ -36,7 +36,7 @@ export const Features = () => {
   ];
 
   return (
-    <section id="features" className="scroll-mt-16 border-t border-border py-20 md:py-28">
+    <section id="features" className="scroll-mt-16 border-t border-border py-24 md:py-32">
       <div className="container">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">

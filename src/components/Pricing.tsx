@@ -17,7 +17,7 @@ export const Pricing = () => {
 
   return (
     <>
-      <section id="pricing" className="scroll-mt-16 container py-20 md:py-28">
+      <section id="pricing" className="scroll-mt-16 container py-24 md:py-32">
         <div className="mx-auto max-w-4xl">
           <div className="mb-16 text-center">
             <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
@@ -62,6 +62,9 @@ export const Pricing = () => {
                 <Button variant="hero" size="lg" className="w-full" onClick={() => setShowWaitlistForm(true)}>
                   Join the waitlist
                 </Button>
+                <p className="mt-4 text-center text-xs text-muted-foreground">
+                  No credit card required
+                </p>
               </CardContent>
             </Card>
           </div>

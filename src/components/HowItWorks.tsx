@@ -23,7 +23,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="scroll-mt-16 container py-20 md:py-28">
+    <section id="how-it-works" className="scroll-mt-16 container py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
         <div className="mb-16 text-center">
           <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">

@@ -19,7 +19,7 @@ export const Navigation = () => {
         <div className="container flex h-16 items-center justify-between">
           {/* Logo */}
           <a href="/" className="bg-gradient-to-r from-accent to-purple-500 bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
-            LegalBrief AI
+            LegalBrief
           </a>
 
           {/* Desktop Navigation */}

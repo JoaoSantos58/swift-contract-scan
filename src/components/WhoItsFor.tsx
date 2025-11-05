@@ -9,7 +9,7 @@ export const WhoItsFor = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden border-y border-border/50 py-20">
+    <section className="relative overflow-hidden border-y border-border/50 py-24 md:py-32">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple-500/5"></div>
       <div className="container relative">
         <div className="mx-auto max-w-5xl text-center">

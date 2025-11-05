@@ -9,7 +9,7 @@ export const FAQ = () => {
   const faqs = [
     {
       question: "Is this legal advice?",
-      answer: "No. LegalBrief AI is an assistant that helps you review contracts faster. It's informational only. You make the final call.",
+      answer: "No. LegalBrief is an assistant that helps you review contracts faster. It's informational only. You make the final call.",
     },
     {
       question: "What file types are supported?",
@@ -21,7 +21,7 @@ export const FAQ = () => {
     },
     {
       question: "How accurate is it?",
-      answer: "LegalBrief AI is excellent at spotting structure and key clauses. However, you should always verify the output — it's a tool to save you time, not replace your judgment.",
+      answer: "LegalBrief is excellent at spotting structure and key clauses. However, you should always verify the output — it's a tool to save you time, not replace your judgment.",
     },
     {
       question: "Can I share summaries with clients?",
@@ -34,7 +34,7 @@ export const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="scroll-mt-16 container py-20 md:py-28">
+    <section id="faq" className="scroll-mt-16 container py-24 md:py-32">
       <div className="mx-auto max-w-3xl">
         <div className="mb-16 text-center">
           <div className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
@@ -42,7 +42,7 @@ export const FAQ = () => {
           </div>
           <h2 className="mb-6 text-4xl font-bold md:text-5xl">Frequently asked questions</h2>
           <p className="text-xl text-muted-foreground">
-            Everything you need to know about LegalBrief AI
+            Everything you need to know about LegalBrief
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full space-y-4">

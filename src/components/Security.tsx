@@ -25,7 +25,7 @@ export const Security = () => {
   ];
 
   return (
-    <section className="border-y border-border/50 py-20 md:py-28">
+    <section className="border-y border-border/50 py-24 md:py-32">
       <div className="container">
         <div className="mx-auto max-w-5xl">
           <div className="mb-16 text-center">

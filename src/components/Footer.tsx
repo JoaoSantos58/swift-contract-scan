@@ -33,7 +33,7 @@ export const Footer = () => {
           </a>
         </div>
         <div className="space-y-3 text-center text-sm text-muted-foreground">
-          <p className="font-medium">© {currentYear} LegalBrief AI. All rights reserved.</p>
+          <p className="font-medium">© {currentYear} LegalBrief. All rights reserved.</p>
           <p className="text-xs">Not a law firm. Outputs are for informational purposes only.</p>
         </div>
       </div>

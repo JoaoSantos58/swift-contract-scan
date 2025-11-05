@@ -20,7 +20,7 @@ export const ValueProps = () => {
   ];
 
   return (
-    <section className="container py-20 md:py-28">
+    <section className="container py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-3">
           {values.map((value, idx) => (
