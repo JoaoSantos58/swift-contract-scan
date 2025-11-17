@@ -60,13 +60,6 @@ export const Hero = () => {
                 <span className="font-medium">Encrypted in transit</span>
               </div>
             </div>
-
-            {/* Social proof placeholder with modern styling */}
-            <div className="flex items-center justify-center gap-8 opacity-30 grayscale animate-fade-in" style={{ animationDelay: "0.4s" }}>
-              <div className="h-10 w-28 rounded-lg bg-gradient-to-br from-muted to-muted/50"></div>
-              <div className="h-10 w-28 rounded-lg bg-gradient-to-br from-muted to-muted/50"></div>
-              <div className="hidden sm:block h-10 w-28 rounded-lg bg-gradient-to-br from-muted to-muted/50"></div>
-            </div>
           </div>
         </div>
       </section>

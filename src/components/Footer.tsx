@@ -22,9 +22,6 @@ export const Footer = () => {
           >
             FAQ
           </button>
-          <a href="#" className="font-medium text-muted-foreground transition-colors hover:text-accent">
-            Security & Privacy
-          </a>
           <a
             href="mailto:hello@legalbrief.ai"
             className="font-medium text-muted-foreground transition-colors hover:text-accent"
