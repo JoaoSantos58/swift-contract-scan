@@ -216,8 +216,7 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel className="text-sm">
-                        I agree to the <a href="#" className="underline">Terms</a> and have read the{" "}
-                        <a href="#" className="underline">Privacy Policy</a>{" "}
+                        I agree to receive product updates and early access information{" "}
                         <span className="text-destructive">*</span>
                       </FormLabel>
                       <FormMessage />
