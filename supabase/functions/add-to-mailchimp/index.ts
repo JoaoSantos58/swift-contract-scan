@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const MAILCHIMP_API_KEY = Deno.env.get("MAILCHIMP_API_KEY");
 const MAILCHIMP_AUDIENCE_ID = Deno.env.get("MAILCHIMP_AUDIENCE_ID");
@@ -8,6 +9,13 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Server-side validation schema
+const requestSchema = z.object({
+  email: z.string().email("Invalid email format").max(255, "Email too long"),
+  tags: z.array(z.string().max(50, "Tag too long")).max(10, "Too many tags").optional().default([]),
+  mergeFields: z.record(z.string().max(100, "Field value too long")).optional().default({}),
+});
 
 interface MailchimpRequest {
   email: string;
@@ -21,9 +29,15 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, tags = [], mergeFields = {} }: MailchimpRequest = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input
+    const validated = requestSchema.parse(requestBody);
+    const { email, tags, mergeFields } = validated;
 
-    console.log("Adding subscriber to Mailchimp:", { email, tags });
+    // Mask email for logging (GDPR compliance)
+    const maskedEmail = email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
+    console.log("Adding subscriber to Mailchimp:", { email: maskedEmail, tagCount: tags.length });
 
     if (!MAILCHIMP_API_KEY || !MAILCHIMP_AUDIENCE_ID || !MAILCHIMP_SERVER_PREFIX) {
       throw new Error("Mailchimp configuration is incomplete");
@@ -86,7 +100,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error(data.detail || "Failed to add subscriber to Mailchimp");
     }
 
-    console.log("Successfully added subscriber to Mailchimp");
+    console.log("Successfully added subscriber");
 
     return new Response(
       JSON.stringify({ success: true, data }),
@@ -97,6 +111,21 @@ const handler = async (req: Request): Promise<Response> => {
     );
   } catch (error: any) {
     console.error("Error in add-to-mailchimp function:", error);
+    
+    // Handle validation errors separately
+    if (error instanceof z.ZodError) {
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid input data", 
+          details: error.errors.map(e => ({ field: e.path.join('.'), message: e.message }))
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    
     return new Response(
       JSON.stringify({ error: error.message }),
       {
