@@ -1,11 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { SampleForm } from "@/components/SampleForm";
 
 export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showSampleForm, setShowSampleForm] = useState(false);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -54,8 +52,10 @@ export const Navigation = () => {
             >
               Contact
             </a>
-            <Button variant="hero" size="sm" onClick={() => setShowSampleForm(true)}>
-              Get Sample Summary (PDF)
+            <Button variant="hero" size="sm" asChild>
+              <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
+                Get Sample Summary (PDF)
+              </a>
             </Button>
           </div>
 
@@ -103,15 +103,15 @@ export const Navigation = () => {
               >
                 Contact
               </a>
-              <Button variant="hero" size="sm" className="w-full" onClick={() => setShowSampleForm(true)}>
-                Get Sample Summary (PDF)
+              <Button variant="hero" size="sm" className="w-full" asChild>
+                <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
+                  Get Sample Summary (PDF)
+                </a>
               </Button>
             </div>
           </div>
         )}
       </nav>
-
-      <SampleForm open={showSampleForm} onOpenChange={setShowSampleForm} />
     </>
   );
 };
