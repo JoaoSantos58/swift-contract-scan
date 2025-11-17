@@ -1,12 +1,7 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Shield, Lock } from "lucide-react";
-import { SampleForm } from "@/components/SampleForm";
-import { WaitlistForm } from "@/components/WaitlistForm";
 
 export const Hero = () => {
-  const [showSampleForm, setShowSampleForm] = useState(false);
-  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
 
   return (
     <>
@@ -41,11 +36,15 @@ export const Hero = () => {
 
             {/* CTAs */}
             <div className="mb-12 flex flex-col items-center justify-center gap-4 animate-fade-up sm:flex-row" style={{ animationDelay: "0.2s" }}>
-              <Button variant="hero" size="lg" className="w-full sm:w-auto" onClick={() => setShowSampleForm(true)}>
-                Get a sample summary (PDF)
+              <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
+                <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
+                  Get a sample summary (PDF)
+                </a>
               </Button>
-              <Button variant="glass" size="lg" className="w-full sm:w-auto" onClick={() => setShowWaitlistForm(true)}>
-                Join the waitlist
+              <Button variant="glass" size="lg" className="w-full sm:w-auto" asChild>
+                <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
+                  Join the waitlist
+                </a>
               </Button>
             </div>
 
@@ -63,9 +62,6 @@ export const Hero = () => {
           </div>
         </div>
       </section>
-
-      <SampleForm open={showSampleForm} onOpenChange={setShowSampleForm} />
-      <WaitlistForm open={showWaitlistForm} onOpenChange={setShowWaitlistForm} />
     </>
   );
 };
