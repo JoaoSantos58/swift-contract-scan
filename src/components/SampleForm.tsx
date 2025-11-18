@@ -25,7 +25,7 @@ import { CheckCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255),
-  name: z.string().trim().max(100).optional(),
+  name: z.string().trim().min(2, { message: "Please enter your full name" }).max(100).regex(/^[a-zA-Z\s-]+$/, { message: "Name can only contain letters, spaces, and hyphens" }),
   consent: z.boolean().refine((val) => val === true, {
     message: "You must agree to continue",
   }),
@@ -61,7 +61,7 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
         body: JSON.stringify({
           fields: {
             email: values.email,
-            name: values.name || ""
+            name: values.name
           }
         })
       });
@@ -136,7 +136,7 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First name (optional)</FormLabel>
+                      <FormLabel>First name</FormLabel>
                       <FormControl>
                         <Input 
                           placeholder="Jane" 
