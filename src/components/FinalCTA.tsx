@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SampleForm } from "@/components/SampleForm";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 export const FinalCTA = () => {
+  const [showSampleForm, setShowSampleForm] = useState(false);
+  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
 
   return (
     <>
@@ -19,20 +24,29 @@ export const FinalCTA = () => {
               Join the waitlist and get an instant sample summary
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
-                <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
-                  Get a sample summary (PDF)
-                </a>
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="w-full sm:w-auto"
+                onClick={() => setShowSampleForm(true)}
+              >
+                Get a sample summary (PDF)
               </Button>
-              <Button variant="glass" size="lg" className="w-full sm:w-auto" asChild>
-                <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
-                  Join the waitlist
-                </a>
+              <Button 
+                variant="glass" 
+                size="lg" 
+                className="w-full sm:w-auto"
+                onClick={() => setShowWaitlistForm(true)}
+              >
+                Join the waitlist
               </Button>
             </div>
           </div>
         </div>
       </section>
+
+      <SampleForm open={showSampleForm} onOpenChange={setShowSampleForm} />
+      <WaitlistForm open={showWaitlistForm} onOpenChange={setShowWaitlistForm} />
     </>
   );
 };
