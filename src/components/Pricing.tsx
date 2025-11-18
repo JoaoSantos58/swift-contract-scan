@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 export const Pricing = () => {
+  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
 
   const features = [
     "30 documents/month",
@@ -56,10 +59,13 @@ export const Pricing = () => {
                     </li>
                   ))}
                 </ul>
-                <Button variant="hero" size="lg" className="w-full" asChild>
-                  <a href="https://tally.so/r/Xxlvqd" target="_blank" rel="noopener noreferrer">
-                    Join the waitlist
-                  </a>
+                <Button 
+                  variant="hero" 
+                  size="lg" 
+                  className="w-full"
+                  onClick={() => setShowWaitlistForm(true)}
+                >
+                  Join the waitlist
                 </Button>
                 <p className="mt-4 text-center text-xs text-muted-foreground">
                   No credit card required
@@ -69,6 +75,8 @@ export const Pricing = () => {
           </div>
         </div>
       </section>
+
+      <WaitlistForm open={showWaitlistForm} onOpenChange={setShowWaitlistForm} />
     </>
   );
 };

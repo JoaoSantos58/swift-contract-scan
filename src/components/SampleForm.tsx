@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -18,27 +17,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255),
-  documentType: z.string().min(1, { message: "Please select a document type" }),
-  useCase: z.string().trim().max(500).optional(),
+  name: z.string().trim().max(100).optional(),
   consent: z.boolean().refine((val) => val === true, {
-    message: "You must agree to the terms",
+    message: "You must agree to continue",
   }),
-  marketing: z.boolean().optional(),
 });
 
 interface SampleFormProps {
@@ -55,51 +45,29 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      documentType: "",
-      useCase: "",
+      name: "",
       consent: false,
-      marketing: false,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      // Save to Supabase first
-      const { error: dbError } = await supabase
-        .from("sample_requests")
-        .insert([{
-          email: values.email,
-          business_type: values.documentType,
-        }]);
-
-      if (dbError) {
-        console.error("Database error:", dbError);
-        // Continue to Mailchimp even if DB fails
-      }
-
-      // Then send to Mailchimp
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/add-to-mailchimp`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+      const response = await fetch('https://tally.so/r/XxxR6e', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fields: {
             email: values.email,
-            tags: ["sample_request", values.documentType],
-            mergeFields: {
-              DTYPE: values.documentType,
-              USECASE: values.useCase || "",
-              MARKETING: values.marketing ? "yes" : "no",
-            },
-          }),
-        }
-      );
+            name: values.name || ""
+          }
+        })
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to submit");
+        throw new Error('Submission failed');
       }
       
       setIsSuccess(true);
@@ -117,7 +85,7 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
       console.error("Error submitting form:", error);
       toast({
         title: "Error",
-        description: "Couldn't send the sample. Please try again or contact support.",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -127,126 +95,91 @@ export const SampleForm = ({ open, onOpenChange }: SampleFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Get a sample summary (PDF)</DialogTitle>
-          <DialogDescription>
-            See exactly what a 2-minute brief looks like
-          </DialogDescription>
-        </DialogHeader>
-
+      <DialogContent className="sm:max-w-[500px]">
         {isSuccess ? (
-          <div className="py-8 text-center">
-            <p className="text-lg font-semibold text-accent">Done!</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Check your inbox for the sample PDF.
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <CheckCircle className="mb-4 h-16 w-16 text-green-500" />
+            <h3 className="mb-2 text-2xl font-bold">Done! Check your inbox</h3>
+            <p className="text-muted-foreground">
+              We've sent the sample PDF to your email address.
             </p>
           </div>
         ) : (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Work email <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="you@company.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="documentType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Document type <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl">Get a sample summary (PDF)</DialogTitle>
+              <DialogDescription>
+                See exactly what a 2-minute brief looks like
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Work email</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select document type" />
-                        </SelectTrigger>
+                        <Input 
+                          placeholder="you@company.com" 
+                          {...field} 
+                          className="h-12 text-base"
+                        />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="msa">MSA</SelectItem>
-                        <SelectItem value="saas">SaaS Agreement</SelectItem>
-                        <SelectItem value="nda">NDA</SelectItem>
-                        <SelectItem value="services">Services Agreement</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="useCase"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Use case (optional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., quick risk triage for a new vendor"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="consent"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel className="text-sm">
-                        I agree to receive product updates and early access information{" "}
-                        <span className="text-destructive">*</span>
-                      </FormLabel>
                       <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="marketing"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel className="text-sm">
-                        Send me product updates & tips
-                      </FormLabel>
-                    </div>
-                  </FormItem>
-                )}
-              />
-
-              <Button type="submit" variant="hero" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send me the sample"}
-              </Button>
-            </form>
-          </Form>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First name (optional)</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Jane" 
+                          {...field} 
+                          className="h-12 text-base"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="consent"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="text-sm font-normal">
+                          I agree to receive product updates and early access information
+                        </FormLabel>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <Button 
+                  type="submit" 
+                  variant="hero" 
+                  size="lg" 
+                  className="w-full h-12"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send me the sample"}
+                </Button>
+              </form>
+            </Form>
+          </>
         )}
       </DialogContent>
     </Dialog>

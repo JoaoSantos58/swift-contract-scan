@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -18,28 +17,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255),
   name: z.string().trim().max(100).optional(),
-  role: z.string().min(1, { message: "Please select your role" }),
-  country: z.string().trim().max(100).optional(),
-  source: z.string().optional(),
   consent: z.boolean().refine((val) => val === true, {
-    message: "You must agree to the terms",
+    message: "You must agree to continue",
   }),
-  marketing: z.boolean().optional(),
 });
 
 interface WaitlistFormProps {
@@ -57,51 +46,28 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
     defaultValues: {
       email: "",
       name: "",
-      role: "",
-      country: "",
-      source: "",
       consent: false,
-      marketing: false,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      // Save to Supabase first
-      const { error: dbError } = await supabase
-        .from("waitlist_subscribers")
-        .insert([{ email: values.email }]);
-
-      if (dbError) {
-        console.error("Database error:", dbError);
-        // Continue to Mailchimp even if DB fails
-      }
-
-      // Then send to Mailchimp
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/add-to-mailchimp`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+      const response = await fetch('https://tally.so/r/XxxR6e', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fields: {
             email: values.email,
-            tags: ["waitlist", values.role, values.source].filter(Boolean),
-            mergeFields: {
-              FNAME: values.name || "",
-              ROLE: values.role,
-              COUNTRY: values.country || "",
-              SOURCE: values.source || "",
-              MARKETING: values.marketing ? "yes" : "no",
-            },
-          }),
-        }
-      );
+            name: values.name || ""
+          }
+        })
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to submit");
+        throw new Error('Submission failed');
       }
       
       setIsSuccess(true);
@@ -129,160 +95,91 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Join the waitlist</DialogTitle>
-          <DialogDescription>
-            Get early access and lock a $24/month founder price (first 100 users)
-          </DialogDescription>
-        </DialogHeader>
-
+      <DialogContent className="sm:max-w-[500px]">
         {isSuccess ? (
-          <div className="py-8 text-center">
-            <p className="text-lg font-semibold text-accent">Thanks — you're on the list!</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              We'll email early-access details soon.
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <CheckCircle className="mb-4 h-16 w-16 text-green-500" />
+            <h3 className="mb-2 text-2xl font-bold">Thanks — you're on the list!</h3>
+            <p className="text-muted-foreground">
+              We'll email early-access details soon
             </p>
           </div>
         ) : (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Work email <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="you@company.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Jane Smith" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Role <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl">Join the waitlist</DialogTitle>
+              <DialogDescription>
+                Get early access and lock in founder pricing ($24/month for first 100 users)
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Work email</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your role" />
-                        </SelectTrigger>
+                        <Input 
+                          placeholder="you@company.com" 
+                          {...field} 
+                          className="h-12 text-base"
+                        />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="solo">Solo attorney</SelectItem>
-                        <SelectItem value="small-firm">Small firm (2–10)</SelectItem>
-                        <SelectItem value="in-house">In-house</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="United States" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="source"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>How did you hear about us?</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select an option" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="referral">Referral</SelectItem>
-                        <SelectItem value="linkedin">LinkedIn</SelectItem>
-                        <SelectItem value="twitter">X/Twitter</SelectItem>
-                        <SelectItem value="search">Search</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="consent"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel className="text-sm">
-                        I agree to receive product updates and early access information{" "}
-                        <span className="text-destructive">*</span>
-                      </FormLabel>
                       <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="marketing"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel className="text-sm">
-                        Send me product updates & tips
-                      </FormLabel>
-                    </div>
-                  </FormItem>
-                )}
-              />
-
-              <Button type="submit" variant="hero" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Joining..." : "Join waitlist"}
-              </Button>
-            </form>
-          </Form>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First name (optional)</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="John" 
+                          {...field} 
+                          className="h-12 text-base"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="consent"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="text-sm font-normal">
+                          I agree to receive product updates and early access information
+                        </FormLabel>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <Button 
+                  type="submit" 
+                  variant="hero" 
+                  size="lg" 
+                  className="w-full h-12"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Join waitlist"}
+                </Button>
+              </form>
+            </Form>
+          </>
         )}
       </DialogContent>
     </Dialog>
