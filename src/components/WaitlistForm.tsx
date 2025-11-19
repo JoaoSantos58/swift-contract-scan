@@ -53,16 +53,14 @@ export const WaitlistForm = ({ open, onOpenChange }: WaitlistFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://tally.so/r/XxxR6e', {
+      const response = await fetch('https://hook.eu1.make.com/gpmer3ouauit9c47j9ns7c7dj9unsppg', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fields: {
-            email: values.email,
-            name: values.name
-          }
+          email: values.email,
+          name: values.name
         })
       });
 
